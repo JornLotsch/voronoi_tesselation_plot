@@ -54,7 +54,7 @@ table(pain_tests_data_complete$class)
 ############### Perform different projections ##############################
 
 projection_methods <- c("PLS-DA", "PCA", "UMAP")
-pain_projections_and_plots <- pbmcapply::pbmclapply(projection_methods, function(projection_method) {
+pain_projections_and_plots <- lapply(projection_methods, function(projection_method) {
 
   ############### Project and plot the data ##############################
 
@@ -126,7 +126,7 @@ pain_projections_and_plots <- pbmcapply::pbmclapply(projection_methods, function
     pain_voronoi_plot = pain_voronoi_plot,
     pain_voronoi_ellipse_plot = pain_voronoi_ellipse_plot
     ))
-}, mc.cores = min(length(projection_methods), parallel::detectCores() - 1))
+})#, mc.cores = min(length(projection_methods), parallel::detectCores() - 1))
 
 names(pain_projections_and_plots) <- projection_methods
 
