@@ -1,3 +1,11 @@
+# --- Libraries ---
+library(ggplot2)
+library(ggfortify)           # for autoplot(prcomp(...))
+library(ggthemes)            # for scale_color_colorblind, scale_fill_colorblind
+library(VoronoiBiomedPlot)   # for create_voronoi_plot()
+# If iris is not already available (e.g., in a minimal environment), load datasets:
+# library(datasets)
+
 # --- Iris Dataset: PCA and Clustering Visualization ---
 
 # Load and prepare input data
@@ -45,7 +53,6 @@ iris_clusters <- cbind.data.frame(
 
 # --- Custom Voronoi Plot Visualization ---
 # Create a Voronoi diagram to visualize PCA clusters and true iris classes
-# (Assumes `create_voronoi_plot()` is a custom function available in your environment.)
 iris_pca_plot <- create_voronoi_plot(
   data = iris_clusters,
   class_column = "class",

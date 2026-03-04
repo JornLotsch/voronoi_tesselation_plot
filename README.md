@@ -38,9 +38,9 @@ Generates Voronoi tessellation plots with optional dual classifications.
 
 ## Examples
 
-### Iris dataset PCA visualization showcase
+### Iris Dataset PCA Visualization
 
-This example demonstrates a **Principal Component Analysis (PCA)** on the classic *Iris* dataset.  
+This example demonstrates **Principal Component Analysis (PCA)** and **Ward's hierarchical clustering** on the classic *Iris* dataset.  
 The figure below shows the data projected into the first two principal components, with clusters and species classes highlighted for comparison.
 
 ![Iris PCA Plot](iris_pca_plot.svg)
@@ -48,8 +48,11 @@ The figure below shows the data projected into the first two principal component
 **Legend**  
 - **Points / Regions**: Individual flower samples projected in PCA space  
 - **Colors**: Iris species (Setosa, Versicolor, Virginica)  
-- **Boundaries**: Iris species  
-- **Axes**: Principal components PC1 and PC2, capturing the majority of variance in the dataset
+- **Boundaries**: Cluster assignments from Ward's method  
+- **Axes**: Principal components PC1 and PC2, capturing the majority of variance  
+
+**Voronoi Islands** (1 island, 0.7% rate)  
+A *Voronoi island* is a data point whose Voronoi cell is completely surrounded by cells of a different class. Every neighbor belongs to a different species, making it the strongest local signal of class discordance in the tessellation. This metric is unique to Voronoi diagrams and quantifies class structure disruption visible in the plot.
 
 ### Main examples
 
