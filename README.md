@@ -37,33 +37,25 @@ Generates Voronoi tessellation plots with optional dual classifications.
 **Output:** Single ggplot object with Voronoi tessellation
 
 ## Examples
+The repository includes example scripts demonstrating the application of Voronoi tessellation to various data types:
 
 ### Iris Dataset PCA Visualization
 
-This example demonstrates **Principal Component Analysis (PCA)** and **Ward's hierarchical clustering** on the classic *Iris* dataset.  
-The figure below shows the data projected into the first two principal components, with clusters and species classes highlighted for comparison.
+This example demonstrates **Principal Component Analysis (PCA)** on the classic *Iris* dataset (Anderson, E. (1935). The irises of the Gaspé peninsula. Bulletin of the American Iris Society 59, 2–5; Fisher, R.A. (1936). The use of multiple measurements in taxonomic problems. Annals of Eugenics 7, 179-188. 10.1111/j.1469-1809.1936.tb02137.x.). The figure below shows the data projected into the first two principal components, with species classes highlighted for comparison.
 
 ![Iris PCA Plot](iris_pca_plot.svg)
 
-**Legend**  
-- **Points / Regions**: Individual flower samples projected in PCA space  
-- **Colors**: Iris species (Setosa, Versicolor, Virginica)  
-- **Boundaries**: Cluster assignments from Ward's method  
-- **Axes**: Principal components PC1 and PC2, capturing the majority of variance  
+**Voroni tesselation and single case labeling of a PCA projection of the Iris flower dataset**. Points/Regions: Individual flower samples projected in PCA space, Colors: Iris species (Setosa, Versicolor, Virginica), Boundaries: Class assignments, Axes: Principal components PC1 and PC2, capturing the majority of variance.  
 
 **Voronoi Islands** (1 island, 0.7% rate)  
 A *Voronoi island* is a data point whose Voronoi cell is completely surrounded by cells of a different class. Every neighbor belongs to a different species, making it the strongest local signal of class discordance in the tessellation. This metric is unique to Voronoi diagrams and quantifies class structure disruption visible in the plot.
 
-### Main examples
 
-The repository includes example scripts demonstrating the application of Voronoi tessellation to various data types:
-
-### Examples used in the paper:
+### Examples used in the paper (see Citation):
 - **`covid_metaboanalyst_example.R`**: COVID-19 metabolomics data from MetaboAnalyst (PCA projections)
 - **`pain_data_example.R`**: Quantitative sensory testing pain data with multiple projection methods (PLS-DA, PCA, UMAP)
 - **`PsA_data_example.R`**: Psoriatic arthritis lipidomics data (PLS-DA projections)
 
-### Additional examples:
 - **`Two_class_artifical_data_example.R`**: Artificial two-class data with controlled separation and scenarios with/without classification errors
 - **`Three_class_artifical_data_example.R`**: Artificial three-class data demonstrating multi-class visualizations
 - **`Lsun_example.R`**: FCPS Lsun dataset illustrating Voronoi tessellation with multiple clustering algorithms (k-means and single linkage)
