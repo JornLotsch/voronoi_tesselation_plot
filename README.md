@@ -80,9 +80,16 @@ Two-dimensional clustering benchmark with 400 samples in three classes (FCPS dat
 ### QSTpainEJP.csv
 Quantitative sensory testing (QST) data with 22 pain measures from 72 healthy subjects. Used in `pain_data_example.R`.
 
-**Public access**: https://data.mendeley.com/preview/9v8ndhctvz (DOI: 10.17632/9v8ndhctvz.1)
+**Public access**: https://data.mendeley.com/datasets/9v8ndhctvz/2 (DOI: 10.17632/9v8ndhctvz.2)
 
 **References**: Lötsch J, Dimova V, Ultsch A, et al. Eur J Pain. 2016;20(5):777-89. doi: 10.1002/ejp.803 | Rolke R, Magerl W, Campbell KA, et al. Eur J Pain. 2006;10(1):77-88. doi: 10.1016/j.ejpain.2005.02.003
+
+### PsA_tests_data_complete.csv
+Lipidomcs data (292 plasma lipid profiles) from 81 patients diagnosed with psoriatic arthritis (PsA) and 26 healthy control subjects. Used in `PsA_data_example.R`. 
+
+**Public access**: https://data.mendeley.com/datasets/32xts2zxdc/1 (DOI: 10.17632/32xts2zxdc.1)
+
+**References**: Lötsch J, Gurke R, Hahnefeld L, Behrens F, Geisslinger G. Psoriatic Arthritis (PsA) Clinical Lipidomics Dataset with Hidden Laboratory Workflow Artifacts: A Benchmark Dataset for Data Processing Quality Control in Lipidomics. Data. 2026;11(2):32. doi:10.3390/data11020032
 
 ### covid_metabolomics_pca_score.csv
 PCA scores from LC-MS metabolomics data of 59 samples (20 controls, 39 COVID-19 patients). Used in `covid_metaboanalyst_example.R`.
