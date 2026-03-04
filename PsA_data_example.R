@@ -20,10 +20,8 @@ perform_projection_analysis <- function(data_frame, projection_method = PROJECTI
 source("create_tesselation_plots.R")
 
 ############### Read the PsA data ##############################
-PsA_tests_data <- read.csv(file = paste0("/home/joern/Aktuell/RheumaMetabolomicsFFM/DataSetPublished/PsA_lipids_BC", ".csv"), row.names = 1)
-dim(PsA_tests_data)
-PsA_tests_metadata <- read.csv(file = paste0("/home/joern/Aktuell/RheumaMetabolomicsFFM/DataSetPublished/PsA_classes", ".csv"), row.names = 1)
-PsA_tests_data_complete <- na.omit(cbind.data.frame(class = PsA_tests_metadata$PsA, PsA_tests_data))
+
+PsA_tests_data_complete <- read.csv("data/PsA_tests_data_complete.csv", row.names = 1)
 dim(PsA_tests_data_complete)
 table(PsA_tests_data_complete$class)
 
