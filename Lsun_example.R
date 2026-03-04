@@ -67,8 +67,8 @@ lsun_orig_classes_plot <- create_voronoi_plot(
   add_grid_lines = FALSE,
   show_island_count = TRUE
 ) +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = "FCPS Lsun original classes"
   )
@@ -87,8 +87,8 @@ lsun_kmeans_plot <- create_voronoi_plot(
   fill_voronoi = "alternative",
   show_island_count = TRUE
 ) +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = "FCPS Lsun k-means clusters"
   )
@@ -107,8 +107,8 @@ lsun_kmeans_plot_variant2 <- create_voronoi_plot(
   add_grid_lines = FALSE,
   show_island_count = TRUE
 ) +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = "FCPS Lsun k-means clusters"
   )
@@ -126,8 +126,8 @@ lsun_single_plot <- create_voronoi_plot(
   fill_voronoi = "alternative",
   show_island_count = TRUE
 ) +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = "FCPS Lsun single linkage clusters"
   )
@@ -144,8 +144,8 @@ lsun_single_plot_variant2 <- create_voronoi_plot(
   add_grid_lines = FALSE,
   show_island_count = TRUE
 ) +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = "FCPS Lsun single linkage clusters"
   )

@@ -89,16 +89,16 @@ pain_projections_and_plots <- lapply(projection_methods, function(projection_met
 
   # Create individual plots
   pain_ellipse_plot <- pain_tests_data_complete_plot$ellipse_plot +
-    ggthemes::scale_color_colorblind() +
-    ggthemes::scale_fill_colorblind() +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     labs(
       title = paste0("Pain data: ", projection_method, " projection"),
       subtitle = "Confidence ellipses for prior classes"
     )
 
   pain_voronoi_plot <- pain_tests_data_complete_plot$voronoi_plot +
-    ggthemes::scale_color_colorblind() +
-    ggthemes::scale_fill_colorblind() +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     labs(
       title = paste0("Pain data: ", projection_method, " projection")
     )
@@ -109,8 +109,8 @@ pain_projections_and_plots <- lapply(projection_methods, function(projection_met
   )
 
   pain_voronoi_ellipse_plot <- pain_tests_data_complete_plot$voronoi_plot_plus_ellipse +
-    ggthemes::scale_color_colorblind() +
-    ggthemes::scale_fill_colorblind() +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     labs(
       title = paste0("Pain data: ", projection_method, " projection")
     )

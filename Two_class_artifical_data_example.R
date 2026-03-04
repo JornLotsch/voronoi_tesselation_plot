@@ -90,8 +90,8 @@ create_boxplot <- function(data_frame) {
       strip.background = element_rect(fill = "cornsilk"), strip.text = element_text(colour = "black"),
       axis.text.y = element_blank(), axis.ticks.y = element_blank()
     ) +
-    ggthemes::scale_color_colorblind() +
-    ggthemes::scale_fill_colorblind() +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     stat_compare_means(mapping = aes(label = after_stat(p.adj)))
 }
 
@@ -151,8 +151,8 @@ process_scenario <- function(scenario_name, base_dataset) {
   projection_plots <- create_tesselation_plots(data = plot_dataframe, class_column = "group", show_island_count = TRUE)
 
   projection_plot_voronoi <- projection_plots$voronoi_plot +
-    ggthemes::scale_fill_colorblind() +
-    ggthemes::scale_color_colorblind() +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     labs(
       title = paste0(scenario_name, ": ", projection_method, " projection")
       )
@@ -163,8 +163,8 @@ process_scenario <- function(scenario_name, base_dataset) {
   )
 
   voronoi_plot_plus_ellipse <- projection_plots$voronoi_plot_plus_ellipse +
-    ggthemes::scale_fill_colorblind() +
-    ggthemes::scale_color_colorblind() +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     labs(
       title = paste0(scenario_name, ": ", projection_method, " projection")
       )
@@ -175,11 +175,11 @@ process_scenario <- function(scenario_name, base_dataset) {
   )
 
   list(
-    projection_plot_ellipses = projection_plots$ellipse_plot + ggthemes::scale_fill_colorblind() + ggthemes::scale_color_colorblind() +
+    projection_plot_ellipses = projection_plots$ellipse_plot + scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) + scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
       labs(title = paste0(scenario_name, ": ", projection_method, " projection"), subtitle = "Confidence ellipses for prior classes"),
     projection_plot_voronoi = projection_plot_voronoi,
     voronoi_plot_plus_ellipse = voronoi_plot_plus_ellipse,
-    boxplot_df_actual = boxplot_result + ggthemes::scale_fill_colorblind() + ggthemes::scale_color_colorblind() +
+    boxplot_df_actual = boxplot_result + scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) + scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
       labs(title = paste0(scenario_name, ": ", "boxplots"))
   )
 }

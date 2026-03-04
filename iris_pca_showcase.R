@@ -1,8 +1,7 @@
 # --- Libraries ---
 library(ggplot2)
-library(ggfortify)           # for autoplot(prcomp(...))
-library(ggthemes)            # for scale_color_colorblind, scale_fill_colorblind
-library(VoronoiBiomedPlot)   # for create_voronoi_plot()
+library(ggfortify) # for autoplot(prcomp(...))
+library(VoronoiBiomedPlot) # for create_voronoi_plot()
 # If iris is not already available (e.g., in a minimal environment), load datasets:
 # library(datasets)
 
@@ -33,8 +32,8 @@ iris_ward <- hclust(dist(pca_res_iris$x[, 1:nPC]), method = "ward.D2")
 # Plot the resulting dendrogram to visualize cluster structure.
 plot(iris_ward)
 
-# Cut the dendrogram to obtain 2 clusters (for simplicity)
-ward_clusters <- cutree(iris_ward, 2)
+# Cut the dendrogram to obtain 3 clusters (for simplicity)
+ward_clusters <- cutree(iris_ward, 3)
 
 # --- Statistical Comparison Between Clusters ---
 # For each feature, compute the Wilcoxon test between clusters.
@@ -52,20 +51,67 @@ iris_clusters <- cbind.data.frame(
 )
 
 # --- Custom Voronoi Plot Visualization ---
-# Create a Voronoi diagram to visualize PCA clusters and true iris classes
-iris_pca_plot <- create_voronoi_plot(
+# Create a Voronoi diagram to visualize true iris classes on the PCA projection
+set.seed(42)
+iris_pca_plot_prior_classes <- create_voronoi_plot(
   data = iris_clusters,
   class_column = "class",
   coordinate_columns = c("PC1", "PC2"),
   case_labels = rownames(df_iris),
   alternative_class_column = "class",
   show_labels = TRUE,
-  fill_voronoi = "alternative",
+  fill_voronoi = "primary",
   show_island_count = TRUE
 ) +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
-  labs(title = "Iris Dataset PCA Projection")
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  labs(title = "Iris dataset PCA projection: Cells and points colored for original species")
+
+# Print PCA plot 1
+print(iris_pca_plot_prior_classes)
+
+# Create a Voronoi diagram to visualize PCA clusters and true iris classes
+set.seed(42)
+iris_pca_plot_clusters <- create_voronoi_plot(
+  data = iris_clusters,
+  class_column = "cluster",
+  coordinate_columns = c("PC1", "PC2"),
+  case_labels = rownames(df_iris),
+  alternative_class_column = "class",
+  show_labels = TRUE,
+  fill_voronoi = "alternative",
+  color_points = "primary",
+  show_island_count = TRUE
+) +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  labs(title = "Iris Dataset PCA Projection: Cells colored for original species, points colored for Ward clusters")
+
+# Print PCA plot 2
+print(iris_pca_plot_clusters)
+
+# Create a Voronoi diagram to visualize PCA clusters and true iris classes
+set.seed(42)
+iris_pca_plot_clusters2 <- create_voronoi_plot(
+  data = iris_clusters,
+  class_column = "cluster",
+  coordinate_columns = c("PC1", "PC2"),
+  case_labels = rownames(df_iris),
+  alternative_class_column = "class",
+  show_labels = TRUE,
+  fill_voronoi = "primary",
+  color_points = "alternative",
+  show_island_count = TRUE
+) +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  labs(title = "Iris Dataset PCA Projection: Cells colored for Ward clusters, points colored for original species")
+
+# Print PCA plot 2
+print(iris_pca_plot_clusters2)
+
+# Combine plots into a final plot
+iris_pca_plot <- cowplot::plot_grid(iris_pca_plot_prior_classes, iris_pca_plot_clusters, iris_pca_plot_clusters2, nrow = 1)
 
 # Print final PCA plot
 print(iris_pca_plot)
@@ -75,6 +121,6 @@ print(iris_pca_plot)
 ggsave(
   filename = "iris_pca_plot.svg",
   plot = iris_pca_plot,
-  width = 10,
+  width = 30,
   height = 10
 )

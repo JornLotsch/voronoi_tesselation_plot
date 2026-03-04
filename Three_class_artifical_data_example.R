@@ -97,8 +97,8 @@ create_boxplot <- function(data_frame) {
       strip.background = element_rect(fill = "cornsilk"), strip.text = element_text(colour = "black"),
       axis.text.y = element_blank(), axis.ticks.y = element_blank()
     ) +
-    ggthemes::scale_color_colorblind() +
-    ggthemes::scale_fill_colorblind() +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     stat_compare_means(mapping = aes(label = after_stat(p.adj)))
 }
 
@@ -141,8 +141,8 @@ create_tesselation_plots <- function(projection_data, scenario_name, projection_
     geom_point() +
     stat_ellipse(geom = "polygon", alpha = .1) +
     theme_light() +
-    ggthemes::scale_color_colorblind() +
-    ggthemes::scale_fill_colorblind() +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     theme(legend.position = c(.1, .1), legend.background = element_rect(fill = ggplot2::alpha("white", 0.2))) +
     labs(title = paste0(scenario_name, ": ", projection_method, " projection"), subtitle = "Confidence ellipses for prior classes",
          x = "Dim1", y = "Dim2", color = "Class", shape = NULL, FILL = NULL) +
@@ -160,8 +160,8 @@ create_tesselation_plots <- function(projection_data, scenario_name, projection_
   voronoi_plot <- ggplot() +
     geom_polygon(data = voronoi_data, aes(x = x, y = y, group = id, fill = class), alpha = 0.3, color = NA, show.legend = FALSE) +
     geom_point(data = plot_dataframe, aes(x = x, y = y, color = group), size = 2) +
-    ggthemes::scale_fill_colorblind() +
-    ggthemes::scale_color_colorblind() +
+    scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+    scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
     theme_light() +
     labs(title = paste0(scenario_name, ": ", projection_method, " projection"), subtitle = "Voronoi tesselation for prior classes",
          x = "Dim1", y = "Dim2", color = "Class", fill = NULL, shape = NULL, group = NULL) +

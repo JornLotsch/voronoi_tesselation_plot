@@ -19,24 +19,24 @@ covid_tests_data_complete_plot <- create_tesselation_plots(
 
 # Create individual plots
 covid_ellipse_plot <- covid_tests_data_complete_plot$ellipse_plot +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = paste0("COVID data: ", projection_method, " projection"),
     subtitle = "Confidence ellipses for prior classes"
   )
 
 covid_voronoi_plot <- covid_tests_data_complete_plot$voronoi_plot +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = paste0("COVID data: ", projection_method, " projection"),
     subtitle = "Voronoi tesselation for prior classes"
   )
 
 covid_voronoi_ellipse_plot <- covid_tests_data_complete_plot$voronoi_plot_plus_ellipse +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = paste0("COVID data: ", projection_method, " projection"),
     subtitle = "Voronoi tesselation and confidence ellipses for prior classes"
@@ -61,8 +61,8 @@ covid_voronoi_contour_plot <-
   geom_point() +
   stat_density_2d(show.legend = FALSE, linewidth = .7) +
   theme_light() +
-  ggthemes::scale_color_colorblind() +
-  ggthemes::scale_fill_colorblind() +
+  scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
+  scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   labs(
     title = paste0("COVID data: ", projection_method, " projection"),
     subtitle = "2D density contour plot",

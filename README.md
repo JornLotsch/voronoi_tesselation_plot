@@ -1,4 +1,5 @@
-# voronoi_tesselation_plot
+# Voronoi tessellation as a complement or replacement for confidence ellipses in the visualization of data projection and clustering results
+
 
 This repository contains R code and examples demonstrating Voronoi tessellation visualization of 2D raw or projected data, as presented in the accompanying scientific paper.
 
@@ -6,7 +7,7 @@ This repository contains R code and examples demonstrating Voronoi tessellation 
 
 Voronoi tessellation provides an intuitive visualization of class separation and decision boundaries in raw data, or projected data from dimensionality reduction techniques such as PCA, PLS-DA, UMAP etc. By dividing the plot space into regions based on proximity to data points, Voronoi diagrams effectively display clustering results and classification boundaries.
 
-## Main Functions
+## Main functions
 
 The code provides two main functions:
 
@@ -39,13 +40,19 @@ Generates Voronoi tessellation plots with optional dual classifications.
 ## Examples
 The repository includes example scripts demonstrating the application of Voronoi tessellation to various data types:
 
-### Iris Dataset PCA Visualization
+### Iris dataset PCA visualization
 
-This example demonstrates **Principal Component Analysis (PCA)** on the classic *Iris* dataset (Anderson, E. (1935). The irises of the Gaspé peninsula. Bulletin of the American Iris Society 59, 2–5; Fisher, R.A. (1936). The use of multiple measurements in taxonomic problems. Annals of Eugenics 7, 179-188. 10.1111/j.1469-1809.1936.tb02137.x.). The figure below shows the data projected into the first two principal components, with species classes highlighted for comparison.
+This example demonstrates **Principal Component Analysis (PCA)** followed by **Ward's hierarchical clustering** on the classic *Iris* dataset (Anderson, E. (1935). The irises of the Gaspé peninsula. Bulletin of the American Iris Society 59, 2–5; Fisher, R.A. (1936). The use of multiple measurements in taxonomic problems. Annals of Eugenics 7, 179-188. 10.1111/j.1469-1809.1936.tb02137.x.). The figure below shows the data projected into the first two principal components, with species classes (left) and Ward clusters (right) highlighted for comparison. The middle and right hand panels show that the clustering does not agree with the original class structure of the three species; in other words, it is a poor clustering result when assuming that the dataset's structure follows the prior classification into three species.
 
 ![Iris PCA Plot](iris_pca_plot.svg)
 
-**Voroni tesselation and single case labeling of a PCA projection of the Iris flower dataset**. Points/Regions: Individual flower samples projected in PCA space, Colors: Iris species (Setosa, Versicolor, Virginica), Boundaries: Class assignments, Axes: Principal components PC1 and PC2, capturing the majority of variance.  
+**Voroni tessellation and single-case labelling of a PCA projection of the iris flower dataset**. Points/regions: Individual flower samples projected in PCA space. *Axes*: Principal components PC1 and PC2, which capture the majority of variance.
+
+*Point colors*: Left panel: Iris species (setosa, versicolor and virginica), middle panel: Ward clusters, right panel: Iris species. 
+
+*Cell colors*: Left and middle panels: Iris species (setosa, versicolor, virginica), right panel: Ward clusters.
+
+
 
 **Voronoi Islands** (1 island, 0.7% rate)  
 A *Voronoi island* is a data point whose Voronoi cell is completely surrounded by cells of a different class. Every neighbor belongs to a different species, making it the strongest local signal of class discordance in the tessellation. This metric is unique to Voronoi diagrams and quantifies class structure disruption visible in the plot.
