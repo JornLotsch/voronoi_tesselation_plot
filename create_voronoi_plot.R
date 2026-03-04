@@ -47,7 +47,7 @@
 #' @return A ggplot object showing the Voronoi tessellation plot. If \code{show_island_count = TRUE},
 #'   the subtitle displays the island count and island rate (proportion of all cells that are islands).
 #'
-#' @details The function creates a Voronoi tessellation visualization for 2D projected data,
+#' @details The function creates a Voronoi tessellation visualization for 2D data,
 #'   particularly useful for displaying results from dimensionality reduction techniques.
 #'   Voronoi tessellation divides the plot space into regions based on proximity to data points,
 #'   providing an intuitive visualization of class boundaries and decision regions.

@@ -2,7 +2,7 @@
 #'
 #' Creates three types of visualization plots for 2D projected data: ellipse plots,
 #' Voronoi diagram plots, and combined ellipse-Voronoi plots. The function is designed
-#' to visualize class separation in dimensionally reduced data.
+#' to visualize class separation in 2D data.
 #'
 #' @param data A data frame containing projected data. Must have at least 2 numeric columns.
 #'   If more than 2 columns are provided, the first 2 are used as coordinates.
@@ -54,7 +54,7 @@
 #'   \item{voronoi_plot_plus_ellipse}{Combined plot with both Voronoi regions and ellipses
 #'     (subtitle shows island count if show_island_count = TRUE)}
 #'
-#' @details The function creates visualizations for 2D projected data, particularly useful
+#' @details The function creates visualizations for 2D data, particularly useful
 #'   for displaying results from dimensionality reduction techniques like PCA, PLS-DA, or UMAP.
 #'
 #'   Voronoi tessellation divides the plot space into regions based on proximity to data points,
