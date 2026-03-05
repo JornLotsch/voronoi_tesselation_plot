@@ -105,7 +105,6 @@ PCA scores from LC-MS metabolomics data of 59 samples (20 controls, 39 COVID-19 
 
 The code requires:
 - `ggplot2` (plotting)
-- `ggthemes` (colorblind-friendly palettes)
 - `cowplot` (plot arrangement)
 - `deldir` (Voronoi tessellation computation)
 - `ggrepel` (smart label positioning)

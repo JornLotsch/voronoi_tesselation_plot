@@ -6,9 +6,8 @@ library(ggplot2)
 library(cowplot)
 library(ggpubr)
 library(ggfortify)
-library(ggthemes)
-library(parallel)
-library(pbmcapply)
+# library(parallel)
+# library(pbmcapply)
 
 ############### Constants ##############################
 PROJECTION_TYPE <- "PLS-DA" # Default projection type

@@ -1,6 +1,5 @@
 ############### Libraries ##############################
 library(ggplot2)
-library(ggthemes)
 library(cowplot)
 
 source("create_voronoi_plot.R")

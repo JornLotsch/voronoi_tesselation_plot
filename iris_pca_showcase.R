@@ -38,10 +38,16 @@ ward_clusters <- cutree(iris_ward, 3)
 # --- Statistical Comparison Between Clusters ---
 # For each feature, compute the Wilcoxon test between clusters.
 # Convert p-values to -log10 scale for visual emphasis.
-wilcox.p <- -log10(apply(df_iris, 2, function(x) wilcox.test(x ~ ward_clusters)$p.value))
-
-# Visualize feature importance using a bar plot of -log10(p-values)
-barplot(sort(wilcox.p), las = 2, main = "Feature significance between clusters")
+if (length(unique(ward_clusters)) > 1) {
+  if (length(unique(ward_clusters)) == 2) {
+    cluster_p <- -log10(apply(df_iris, 2, function(x) wilcox.test(x ~ ward_clusters)$p.value))
+  } else {
+    cluster_p <- -log10(apply(df_iris, 2, function(x) kruskal.test(x ~ ward_clusters)$p.value))
+  }
+  # Visualize feature importance using a bar plot of -log10(p-values)
+  barplot(sort(cluster_p), las = 2, main = "Feature significance between clusters", ylab = "-log10(p)")
+  abline(h = -log10(0.05), lty = 2, col = "red")
+}
 
 # Combine cluster assignments, class labels, and PCA coordinates for visualization
 iris_clusters <- cbind.data.frame(
