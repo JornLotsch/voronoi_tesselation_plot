@@ -1,7 +1,10 @@
 # --- Libraries ---
 library(ggplot2)
 library(ggfortify) # for autoplot(prcomp(...))
-library(VoronoiBiomedPlot) # for create_voronoi_plot()
+
+source("create_tesselation_plots.R")
+
+
 # If iris is not already available (e.g., in a minimal environment), load datasets:
 # library(datasets)
 
@@ -71,7 +74,7 @@ iris_pca_plot_prior_classes <- create_voronoi_plot(
 ) +
   scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
-  labs(title = "Iris dataset PCA projection: Cells and points colored for original species")
+  labs(title = "Iris dataset PCA projection:\nCells and points colored for original species")
 
 # Print PCA plot 1
 print(iris_pca_plot_prior_classes)
@@ -91,7 +94,7 @@ iris_pca_plot_clusters <- create_voronoi_plot(
 ) +
   scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
-  labs(title = "Iris Dataset PCA Projection: Cells colored for original species, points colored for Ward clusters")
+  labs(title = "Iris Dataset PCA Projection:\nCells colored for original species, points colored for Ward clusters")
 
 # Print PCA plot 2
 print(iris_pca_plot_clusters)
@@ -111,7 +114,7 @@ iris_pca_plot_clusters2 <- create_voronoi_plot(
 ) +
   scale_color_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
   scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")) +
-  labs(title = "Iris Dataset PCA Projection: Cells colored for Ward clusters, points colored for original species")
+  labs(title = "Iris Dataset PCA Projection:\nCells colored for Ward clusters, points colored for original species")
 
 # Print PCA plot 2
 print(iris_pca_plot_clusters2)
@@ -127,6 +130,6 @@ print(iris_pca_plot)
 ggsave(
   filename = "iris_pca_plot.svg",
   plot = iris_pca_plot,
-  width = 30,
-  height = 10
+  width = 18,
+  height = 7
 )
