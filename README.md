@@ -49,7 +49,7 @@ Returns a **single ggplot object** containing the tessellation.
 | `label_fontface` | character | "plain" | Font face for case labels ("plain", "bold", "italic", "bold.italic") |
 | `label_size` | numeric | 3.88 | Size of case labels |
 | `show_island_count` | logical | FALSE | Whether to show the Voronoi island count as a plot subtitle |
-| `label_islands_only` | logical | FALSE | Whether to show case labels only for Voronoi islands |
+| `label_islands_only` | logical | FALSE | Whether to show case labels only for Voronoi islands, for which `show_island_count` must be TRUE|
 
 ---
 
