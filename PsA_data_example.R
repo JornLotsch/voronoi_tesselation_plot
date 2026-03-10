@@ -46,8 +46,9 @@ PsA_tests_data_complete_plot <- create_tesselation_plots(
   data = proj_PsA_tests_data_complete_data$df,
   class_column = "group",
   case_labels = rownames(PsA_tests_data_complete),
-  show_labels = ,
-  show_island_count = TRUE
+  show_labels = TRUE,
+  show_island_count = TRUE, 
+  label_islands_only = TRUE
 )
 
 # Create individual plots

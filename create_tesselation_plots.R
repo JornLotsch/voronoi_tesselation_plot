@@ -468,7 +468,7 @@ create_tesselation_plots <- function(data,
     }
 
     if (show_labels && requireNamespace("ggrepel", quietly = TRUE)) {
-      if (label_islands_only && show_island_count) plot_dataframe$labels[!plot_dataframe$labels %in% islands$indices] <- NA
+      if (label_islands_only && show_island_count) plot_dataframe$labels[-islands$indices] <- NA
       plt <- plt +
         ggrepel::geom_text_repel(
           data = plot_dataframe,
