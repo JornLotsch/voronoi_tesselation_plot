@@ -150,6 +150,12 @@ You can install it from CRAN:
 install.packages("VoronoiBiomedPlot")
 ```
 
+or from the GitHub repository 
+```r
+# install.packages("remotes")
+remotes::install_github("JornLotsch/VoronoiBiomedPlot")
+```
+
 
 ## License
 
