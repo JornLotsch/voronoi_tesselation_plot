@@ -9,33 +9,58 @@ Voronoi tessellation provides an intuitive visualization of class separation and
 
 ## Main functions
 
-The code provides two main functions:
+The package provides two main functions for generating tessellation-based visualizations of multivariate data.  
+Both share most parameters for plot style and data input, but differ in the type of output they produce.
 
-### `create_tesselation_plots()`
-Generates standard 2D plots with optional confidence ellipses and Voronoi tessellation overlays.
+---
 
-**Parameters:**
-- `data`: Data frame with ≥2 numeric columns for coordinates
-- `class_column`: Column name or vector of class labels
-- `case_labels`: Optional individual case labels
-- `show_labels`: Logical, whether to show the case labels
-- `coord_names`: Names for coordinate axes (default: "Dim1", "Dim2")
-- Additional aesthetic parameters for colors, sizes and styling
+### 1. `create_tesselation_plots()`
 
-**Output:** List containing `scatter_plot`, `ellipse_plot`, `voronoi_plot`, and `voronoi_plot_plus_ellipse`
+Generates standard 2D plots with optional confidence ellipses and Voronoi tessellation overlays.  
+Returns a **list of ggplot objects** that combine scatterplots, ellipses, and Voronoi diagrams.
 
-### `create_voronoi_plot()`
-Generates Voronoi tessellation plots with optional dual classifications.
+### 2. `create_voronoi_plot()`
 
-**Parameters:**
-- `coordinate_columns`: Columns to use as coordinates
-- `class_column`: Primary class classification
-- `alternative_class_column`: Optional alternative classification
-- `color_points`, `fill_voronoi`: Which classification to use for colors/fills
-- `add_grid_lines`: Logical, whether to add origin grid lines
-- Additional aesthetic parameters
+Generates standalone Voronoi tessellation plots with optional dual class assignments.  
+Returns a **single ggplot object** containing the tessellation.
 
-**Output:** Single ggplot object with Voronoi tessellation
+---
+
+### Shared parameters
+
+| **Parameter** | **Type** | **Default** | **Description** |
+|----------------|-----------|--------------|-----------------|
+| `data` | data.frame | – | Data with ≥2 numeric columns for coordinates |
+| `class_column` | character / vector | NULL | Column name or vector of class labels |
+| `alternative_class_column` | character / vector | NULL | Alternative column name or vector of class labels |
+| `coordinate_columns` | character vector | NULL | Columns to use as coordinates (if NULL, uses first two numeric columns) |
+| `case_labels` | character vector | NULL | Individual case labels (uses row numbers if NULL) |
+| `coord_names` | character vector | c("Dim1", "Dim2") | Names for coordinate axes |
+| `title` | character | NULL | Plot title |
+| `show_labels` | logical | FALSE | Whether to show case labels |
+| `voronoi_alpha` | numeric | 0.3 | Transparency of Voronoi regions (0–1) |
+| `point_size` | numeric | 2 | Size of data points |
+| `legend_position` | character / numeric | "bottom" | Position of the legend |
+| `color_palette` | function / character | NULL | Custom color palette |
+| `add_grid_lines` | logical | FALSE | Whether to add origin grid lines |
+| `color_points` | character | "primary" | Which classification to use for point colors ("primary" or "alternative") |
+| `fill_voronoi` | character | "primary" | Which classification to use for Voronoi fills ("primary" or "alternative") |
+| `point_shape` | character | "none" | Shape of data points ("primary", "alternative", or "none") |
+| `label_fontface` | character | "plain" | Font face for case labels ("plain", "bold", "italic", "bold.italic") |
+| `label_size` | numeric | 3.88 | Size of case labels |
+| `show_island_count` | logical | FALSE | Whether to show the Voronoi island count as a plot subtitle |
+| `label_islands_only` | logical | FALSE | Whether to show case labels only for Voronoi islands |
+
+---
+
+### Outputs
+
+| **Function** | **Output** | **Type** | **Description** |
+|---------------|-------------|-----------|-----------------|
+| `create_tesselation_plots()` | `result$scatter_plot` | ggplot | Standard scatter plot of the projected data |
+|  | `result$voronoi_plot` | ggplot | Voronoi tessellation plot with data points |
+|  | `result$combined_plot` | ggplot | Combined visualization with additional features |
+| `create_voronoi_plot()` | *return value* | ggplot | A single Voronoi plot with optional dual classification and grid overlays |
 
 ## Examples
 The repository includes example scripts demonstrating the application of Voronoi tessellation to various data types:

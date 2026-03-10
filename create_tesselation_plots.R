@@ -46,6 +46,8 @@
 #'   A "Voronoi island" is a data point whose Voronoi cell is completely surrounded by cells
 #'   belonging to a different class, making it a visualization-intrinsic measure of class
 #'   structure disruption. The ellipse_plot is unaffected. Default: FALSE.
+#' @param label_islands_only Logical indicating whether to show case labels on plots only for
+#'   Voronoi islands. Default: FALSE.
 #'
 #' @return A list containing three ggplot objects:
 #'   \item{ellipse_plot}{Plot with confidence ellipses for each class}
@@ -110,30 +112,31 @@ create_tesselation_plots <- function(data,
                                     point_shape = "none",
                                     label_fontface = "plain",
                                     label_size = 3.88,
-                                    show_island_count = FALSE) {
-  
+                                    show_island_count = FALSE,
+                                    label_islands_only = FALSE) {
+
   # Input validation
   if (!is.data.frame(data)) {
     stop("'data' must be a data.frame")
   }
-  
+
   if (ncol(data) < 2) {
     stop("'data' must have at least 2 columns for coordinates")
   }
-  
+
   if (!color_points %in% c("primary", "alternative")) {
     stop("'color_points' must be either 'primary' or 'alternative'")
   }
-  
+
   if (!fill_voronoi %in% c("primary", "alternative")) {
     stop("'fill_voronoi' must be either 'primary' or 'alternative'")
   }
-  
+
   if (!point_shape %in% c("primary", "alternative", "none")) {
     point_shape <- "none"
     warning("'point_shape' must be either 'primary', 'alternative', or 'none'. Setting to 'none'.")
   }
-  
+
   # Extract coordinates
   if (is.null(coordinate_columns)) {
     numeric_cols <- sapply(data, is.numeric)
@@ -154,13 +157,13 @@ create_tesselation_plots <- function(data,
     }
     coord_cols <- coordinate_columns
   }
-  
+
   # Prepare plot dataframe
   plot_dataframe <- data.frame(
     x = data[[coord_cols[1]]],
     y = data[[coord_cols[2]]]
   )
-  
+
   # Helper function to process class column
   process_class_column <- function(class_col, col_name) {
     if (is.null(class_col)) {
@@ -177,30 +180,30 @@ create_tesselation_plots <- function(data,
       as.factor(class_col)
     }
   }
-  
+
   # Handle primary class column
   plot_dataframe$group_primary <- process_class_column(class_column, "'class_column'")
-  
+
   # Handle alternative class column
   if (is.null(alternative_class_column)) {
     plot_dataframe$group_alternative <- plot_dataframe$group_primary
   } else {
     plot_dataframe$group_alternative <- process_class_column(alternative_class_column, "'alternative_class_column'")
   }
-  
+
   # Set the active grouping variables based on parameters
   plot_dataframe$group_color <- if (color_points == "primary") {
     plot_dataframe$group_primary
   } else {
     plot_dataframe$group_alternative
   }
-  
+
   plot_dataframe$group_fill <- if (fill_voronoi == "primary") {
     plot_dataframe$group_primary
   } else {
     plot_dataframe$group_alternative
   }
-  
+
   # Add shape grouping variable
   plot_dataframe$group_shape <- if (point_shape == "primary") {
     plot_dataframe$group_primary
@@ -209,7 +212,7 @@ create_tesselation_plots <- function(data,
   } else {
     factor(rep(1, nrow(plot_dataframe)))  # All same shape when "none"
   }
-  
+
   # Handle case labels
   if (is.null(case_labels)) {
     plot_dataframe$labels <- as.character(seq_len(nrow(data)))
@@ -219,9 +222,9 @@ create_tesselation_plots <- function(data,
     }
     plot_dataframe$labels <- as.character(case_labels)
   }
-  
+
   rownames(plot_dataframe) <- plot_dataframe$labels
-  
+
   # ---------------------------------------------------------------------------
   # Helper: get axis limits from a built ggplot object
   # ---------------------------------------------------------------------------
@@ -234,7 +237,7 @@ create_tesselation_plots <- function(data,
       ymax = gb$layout$panel_params[[1]]$y.range[2]
     )
   }
-  
+
   # ---------------------------------------------------------------------------
   # Helper: compute Voronoi tessellation
   # Returns a list with:
@@ -247,15 +250,15 @@ create_tesselation_plots <- function(data,
     if (!requireNamespace("deldir", quietly = TRUE)) {
       stop("Package 'deldir' is required for Voronoi diagrams. Please install it.")
     }
-    
+
     if (is.null(bounding_box)) {
       coordinate_range <- function(values) range(values, na.rm = TRUE)
       bounding_box <- c(coordinate_range(x_coords), coordinate_range(y_coords))
     }
-    
+
     tessellation <- deldir::deldir(x_coords, y_coords, rw = bounding_box)
     tiles        <- deldir::tile.list(tessellation)
-    
+
     polygon_data <- do.call(rbind, lapply(seq_along(tiles), function(i) {
       data.frame(
         x     = tiles[[i]]$x,
@@ -265,10 +268,10 @@ create_tesselation_plots <- function(data,
         stringsAsFactors = FALSE
       )
     }))
-    
+
     list(polygon_data = polygon_data, tessellation = tessellation)
   }
-  
+
   # ---------------------------------------------------------------------------
   # Helper: compute Voronoi island count
   #
@@ -285,10 +288,10 @@ create_tesselation_plots <- function(data,
   # ---------------------------------------------------------------------------
   compute_voronoi_islands <- function(tessellation, class_groups) {
     neighbor_pairs <- tessellation$dirsgs[, c("ind1", "ind2")]
-    
+
     n           <- length(class_groups)
     island_flags <- logical(n)
-    
+
     for (k in seq_len(n)) {
       neighbors <- c(
         neighbor_pairs$ind2[neighbor_pairs$ind1 == k],
@@ -298,14 +301,14 @@ create_tesselation_plots <- function(data,
       if (length(neighbors) == 0) next
       island_flags[k] <- all(class_groups[neighbors] != class_groups[k])
     }
-    
+
     list(
       count   = sum(island_flags),
       rate    = mean(island_flags),
       indices = which(island_flags)
     )
   }
-  
+
   # ---------------------------------------------------------------------------
   # Create base plot for ellipse plot
   # ---------------------------------------------------------------------------
@@ -319,7 +322,7 @@ create_tesselation_plots <- function(data,
                            ggplot2::aes(x = x, y = y, color = group_color,
                                         fill = group_primary, shape = group_shape))
     }
-    
+
     if (!is.null(color_palette)) {
       if (is.function(color_palette)) {
         p <- p + color_palette()
@@ -328,13 +331,13 @@ create_tesselation_plots <- function(data,
           ggplot2::scale_fill_manual(values = color_palette)
       }
     }
-    
+
     p <- p + ggplot2::theme_light() +
       ggplot2::theme(
         legend.position    = legend_position,
         legend.background  = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
       )
-    
+
     if (point_shape == "none") {
       p <- p + ggplot2::labs(title = title, x = coord_names[1], y = coord_names[2],
                              color = "Class", fill = "Class")
@@ -342,16 +345,16 @@ create_tesselation_plots <- function(data,
       p <- p + ggplot2::labs(title = title, x = coord_names[1], y = coord_names[2],
                              color = "Class", fill = "Class", shape = "Class")
     }
-    
+
     if (add_grid_lines) {
       p <- p +
         ggplot2::geom_vline(xintercept = 0, color = "grey20", linetype = "dashed") +
         ggplot2::geom_hline(yintercept = 0, color = "grey20", linetype = "dashed")
     }
-    
+
     return(p)
   }
-  
+
   # ---------------------------------------------------------------------------
   # Ellipse plot  (no island count — ellipses have no tessellation)
   # ---------------------------------------------------------------------------
@@ -359,13 +362,13 @@ create_tesselation_plots <- function(data,
     ggplot2::geom_point(size = point_size) +
     ggplot2::stat_ellipse(geom = "polygon", alpha = ellipse_alpha) +
     ggplot2::guides(shape = "none", fill = "none")
-  
+
   if (point_shape == "none") {
     ellipse_plot <- ellipse_plot + ggplot2::guides(fill = "none")
   } else {
     ellipse_plot <- ellipse_plot + ggplot2::guides(shape = "none", fill = "none")
   }
-  
+
   if (show_labels && requireNamespace("ggrepel", quietly = TRUE)) {
     ellipse_plot <- ellipse_plot +
       ggrepel::geom_text_repel(
@@ -376,7 +379,7 @@ create_tesselation_plots <- function(data,
         show.legend  = FALSE
       )
   }
-  
+
   # ---------------------------------------------------------------------------
   # Voronoi tessellation  (single deldir call; tessellation reused for islands)
   # ---------------------------------------------------------------------------
@@ -388,7 +391,7 @@ create_tesselation_plots <- function(data,
   )
   voronoi_data        <- voronoi_result$polygon_data
   voronoi_tessellation <- voronoi_result$tessellation
-  
+
   # Optionally compute island count and build subtitle string.
   # The subtitle is the same for both Voronoi-based plots.
   subtitle_text <- NULL
@@ -403,7 +406,7 @@ create_tesselation_plots <- function(data,
       islands$rate * 100
     )
   }
-  
+
   # ---------------------------------------------------------------------------
   # Build Voronoi plot
   # ---------------------------------------------------------------------------
@@ -433,7 +436,7 @@ create_tesselation_plots <- function(data,
           size = point_size
         )
     }
-    
+
     plt <- plt +
       ggplot2::theme_light() +
       ggplot2::labs(
@@ -447,7 +450,7 @@ create_tesselation_plots <- function(data,
         legend.position   = legend_position,
         legend.background = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
       )
-    
+
     if (!is.null(color_palette)) {
       if (is.function(color_palette)) {
         plt <- plt + color_palette()
@@ -457,14 +460,15 @@ create_tesselation_plots <- function(data,
           ggplot2::scale_fill_manual(values = color_palette)
       }
     }
-    
+
     if (add_grid_lines) {
       plt <- plt +
         ggplot2::geom_vline(xintercept = 0, color = "grey20", linetype = "dashed") +
         ggplot2::geom_hline(yintercept = 0, color = "grey20", linetype = "dashed")
     }
-    
+
     if (show_labels && requireNamespace("ggrepel", quietly = TRUE)) {
+      if (label_islands_only && show_island_count) plot_dataframe$labels[!plot_dataframe$labels %in% islands$indices] <- NA
       plt <- plt +
         ggrepel::geom_text_repel(
           data = plot_dataframe,
@@ -475,12 +479,12 @@ create_tesselation_plots <- function(data,
           show.legend  = FALSE
         )
     }
-    
+
     return(plt)
   }
-  
+
   voronoi_plot <- build_voronoi_base()
-  
+
   # ---------------------------------------------------------------------------
   # Combined Voronoi + ellipse plot (reuses the same base; same subtitle)
   # ---------------------------------------------------------------------------
@@ -492,7 +496,7 @@ create_tesselation_plots <- function(data,
       alpha       = ellipse_alpha,
       show.legend = FALSE
     )
-  
+
   return(list(
     ellipse_plot              = ellipse_plot,
     voronoi_plot              = voronoi_plot,

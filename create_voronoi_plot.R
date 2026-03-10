@@ -43,6 +43,8 @@
 #'   as a plot subtitle. A "Voronoi island" is a data point whose Voronoi cell is completely
 #'   surrounded by cells belonging to a different class, making it a visualization-intrinsic
 #'   measure of class structure disruption. Default: FALSE.
+#' @param label_islands_only Logical indicating whether to show case labels on plots only for
+#'   Voronoi islands. Default: FALSE.
 #'
 #' @return A ggplot object showing the Voronoi tessellation plot. If \code{show_island_count = TRUE},
 #'   the subtitle displays the island count and island rate (proportion of all cells that are islands).
@@ -101,29 +103,30 @@ create_voronoi_plot <- function(data,
                                 point_shape = "none",
                                 label_fontface = "plain",
                                 label_size = 3.88,
-                                show_island_count = FALSE) {
+                                show_island_count = FALSE,
+                                label_islands_only = FALSE) {
   # Input validation
   if (!is.data.frame(data)) {
     stop("'data' must be a data.frame")
   }
-  
+
   if (ncol(data) < 2) {
     stop("'data' must have at least 2 columns for coordinates")
   }
-  
+
   if (!color_points %in% c("primary", "alternative")) {
     stop("'color_points' must be either 'primary' or 'alternative'")
   }
-  
+
   if (!fill_voronoi %in% c("primary", "alternative")) {
     stop("'fill_voronoi' must be either 'primary' or 'alternative'")
   }
-  
+
   if (!point_shape %in% c("primary", "alternative", "none")) {
     point_shape <- "none"
     warning("'point_shape' must be either 'primary', 'alternative', or 'none'. Setting to 'none'.")
   }
-  
+
   # Extract coordinates
   if (is.null(coordinate_columns)) {
     numeric_cols <- sapply(data, is.numeric)
@@ -144,13 +147,13 @@ create_voronoi_plot <- function(data,
     }
     coord_cols <- coordinate_columns
   }
-  
+
   # Prepare plot dataframe
   plot_dataframe <- data.frame(
     x = data[[coord_cols[1]]],
     y = data[[coord_cols[2]]]
   )
-  
+
   # Helper function to process class column
   process_class_column <- function(class_col, col_name) {
     if (is.null(class_col)) {
@@ -167,30 +170,30 @@ create_voronoi_plot <- function(data,
       as.factor(class_col)
     }
   }
-  
+
   # Handle primary class column
   plot_dataframe$group_primary <- process_class_column(class_column, "'class_column'")
-  
+
   # Handle alternative class column
   if (is.null(alternative_class_column)) {
     plot_dataframe$group_alternative <- plot_dataframe$group_primary
   } else {
     plot_dataframe$group_alternative <- process_class_column(alternative_class_column, "'alternative_class_column'")
   }
-  
+
   # Set the active grouping variables based on parameters
   plot_dataframe$group_color <- if (color_points == "primary") {
     plot_dataframe$group_primary
   } else {
     plot_dataframe$group_alternative
   }
-  
+
   plot_dataframe$group_fill <- if (fill_voronoi == "primary") {
     plot_dataframe$group_primary
   } else {
     plot_dataframe$group_alternative
   }
-  
+
   plot_dataframe$group_shape <- if (point_shape == "primary") {
     plot_dataframe$group_primary
   } else if (point_shape == "alternative") {
@@ -198,7 +201,7 @@ create_voronoi_plot <- function(data,
   } else {
     factor(rep(1, nrow(plot_dataframe)))  # All same shape when "none"
   }
-  
+
   # Handle case labels
   if (is.null(case_labels)) {
     plot_dataframe$labels <- as.character(seq_len(nrow(data)))
@@ -208,7 +211,7 @@ create_voronoi_plot <- function(data,
     }
     plot_dataframe$labels <- as.character(case_labels)
   }
-  
+
   # ---------------------------------------------------------------------------
   # Helper: compute Voronoi tessellation
   # Returns a list with:
@@ -219,20 +222,20 @@ create_voronoi_plot <- function(data,
     if (!requireNamespace("deldir", quietly = TRUE)) {
       stop("Package 'deldir' is required for Voronoi diagrams. Please install it.")
     }
-    
+
     x_range <- range(x_coords, na.rm = TRUE)
     y_range <- range(y_coords, na.rm = TRUE)
     x_buffer <- diff(x_range) * 0.1
     y_buffer <- diff(y_range) * 0.1
-    
+
     bounding_box <- c(
       x_range[1] - x_buffer, x_range[2] + x_buffer,
       y_range[1] - y_buffer, y_range[2] + y_buffer
     )
-    
+
     tessellation <- deldir::deldir(x_coords, y_coords, rw = bounding_box)
     tiles <- deldir::tile.list(tessellation)
-    
+
     polygon_data <- do.call(rbind, lapply(seq_along(tiles), function(i) {
       data.frame(
         x = tiles[[i]]$x,
@@ -242,10 +245,10 @@ create_voronoi_plot <- function(data,
         stringsAsFactors = FALSE
       )
     }))
-    
+
     list(polygon_data = polygon_data, tessellation = tessellation)
   }
-  
+
   # ---------------------------------------------------------------------------
   # Helper: compute Voronoi island count
   #
@@ -267,10 +270,10 @@ create_voronoi_plot <- function(data,
   compute_voronoi_islands <- function(tessellation, class_groups) {
     # dirsgs rows: each row is a Voronoi edge shared by points ind1 and ind2
     neighbor_pairs <- tessellation$dirsgs[, c("ind1", "ind2")]
-    
+
     n <- length(class_groups)
     island_flags <- logical(n)
-    
+
     for (k in seq_len(n)) {
       # Collect all Voronoi neighbors of point k
       neighbors <- c(
@@ -283,14 +286,14 @@ create_voronoi_plot <- function(data,
       # Island condition: every neighbor belongs to a different class
       island_flags[k] <- all(class_groups[neighbors] != class_groups[k])
     }
-    
+
     list(
       count   = sum(island_flags),
       rate    = mean(island_flags),
       indices = which(island_flags)
     )
   }
-  
+
   # ---------------------------------------------------------------------------
   # Compute tessellation (always needed for the plot; island detection reuses
   # the same deldir object, so there is no additional computational cost).
@@ -302,7 +305,7 @@ create_voronoi_plot <- function(data,
   )
   voronoi_data        <- voronoi_result$polygon_data
   voronoi_tessellation <- voronoi_result$tessellation
-  
+
   # ---------------------------------------------------------------------------
   # Optionally compute island count and build subtitle string
   # ---------------------------------------------------------------------------
@@ -318,7 +321,7 @@ create_voronoi_plot <- function(data,
       islands$rate * 100
     )
   }
-  
+
   # ---------------------------------------------------------------------------
   # Build the ggplot object
   # ---------------------------------------------------------------------------
@@ -351,7 +354,7 @@ create_voronoi_plot <- function(data,
         size = point_size
       )
   }
-  
+
   voronoi_plot <- voronoi_plot +
     ggplot2::theme_light() +
     ggplot2::labs(
@@ -365,7 +368,7 @@ create_voronoi_plot <- function(data,
       legend.position    = legend_position,
       legend.background  = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
     )
-  
+
   if (!is.null(color_palette)) {
     if (is.function(color_palette)) {
       voronoi_plot <- voronoi_plot + color_palette()
@@ -375,14 +378,15 @@ create_voronoi_plot <- function(data,
         ggplot2::scale_fill_manual(values = color_palette)
     }
   }
-  
+
   if (add_grid_lines) {
     voronoi_plot <- voronoi_plot +
       ggplot2::geom_vline(xintercept = 0, color = "grey20", linetype = "dashed") +
       ggplot2::geom_hline(yintercept = 0, color = "grey20", linetype = "dashed")
   }
-  
+
   if (show_labels && requireNamespace("ggrepel", quietly = TRUE)) {
+    if (label_islands_only && show_island_count) plot_dataframe$labels[!plot_dataframe$labels %in% islands$indices] <- NA
     voronoi_plot <- voronoi_plot +
       ggrepel::geom_text_repel(
         data = plot_dataframe,
@@ -393,6 +397,6 @@ create_voronoi_plot <- function(data,
         show.legend  = FALSE
       )
   }
-  
+
   return(voronoi_plot)
 }
