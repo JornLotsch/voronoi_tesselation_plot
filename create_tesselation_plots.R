@@ -210,7 +210,7 @@ create_tesselation_plots <- function(data,
   } else if (point_shape == "alternative") {
     plot_dataframe$group_alternative
   } else {
-    factor(rep(1, nrow(plot_dataframe)))  # All same shape when "none"
+    factor(rep(1, nrow(plot_dataframe))) # All same shape when "none"
   }
 
   # Handle case labels
@@ -257,13 +257,13 @@ create_tesselation_plots <- function(data,
     }
 
     tessellation <- deldir::deldir(x_coords, y_coords, rw = bounding_box)
-    tiles        <- deldir::tile.list(tessellation)
+    tiles <- deldir::tile.list(tessellation)
 
     polygon_data <- do.call(rbind, lapply(seq_along(tiles), function(i) {
       data.frame(
-        x     = tiles[[i]]$x,
-        y     = tiles[[i]]$y,
-        id    = i,
+        x = tiles[[i]]$x,
+        y = tiles[[i]]$y,
+        id = i,
         class = class_groups[i],
         stringsAsFactors = FALSE
       )
@@ -289,7 +289,7 @@ create_tesselation_plots <- function(data,
   compute_voronoi_islands <- function(tessellation, class_groups) {
     neighbor_pairs <- tessellation$dirsgs[, c("ind1", "ind2")]
 
-    n           <- length(class_groups)
+    n <- length(class_groups)
     island_flags <- logical(n)
 
     for (k in seq_len(n)) {
@@ -303,8 +303,8 @@ create_tesselation_plots <- function(data,
     }
 
     list(
-      count   = sum(island_flags),
-      rate    = mean(island_flags),
+      count = sum(island_flags),
+      rate = mean(island_flags),
       indices = which(island_flags)
     )
   }
@@ -334,8 +334,8 @@ create_tesselation_plots <- function(data,
 
     p <- p + ggplot2::theme_light() +
       ggplot2::theme(
-        legend.position    = legend_position,
-        legend.background  = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
+        legend.position = legend_position,
+        legend.background = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
       )
 
     if (point_shape == "none") {
@@ -373,10 +373,10 @@ create_tesselation_plots <- function(data,
     ellipse_plot <- ellipse_plot +
       ggrepel::geom_text_repel(
         ggplot2::aes(label = labels),
-        fontface     = label_fontface,
-        size         = label_size,
+        fontface = label_fontface,
+        size = label_size,
         max.overlaps = Inf,
-        show.legend  = FALSE
+        show.legend = FALSE
       )
   }
 
@@ -389,7 +389,7 @@ create_tesselation_plots <- function(data,
     plot_dataframe$group_fill,
     bounding_box = unlist(get_plot_limits(ellipse_plot))
   )
-  voronoi_data        <- voronoi_result$polygon_data
+  voronoi_data <- voronoi_result$polygon_data
   voronoi_tessellation <- voronoi_result$tessellation
 
   # Optionally compute island count and build subtitle string.
@@ -398,7 +398,7 @@ create_tesselation_plots <- function(data,
   if (show_island_count) {
     islands <- compute_voronoi_islands(
       voronoi_tessellation,
-      plot_dataframe$group_fill   # use same classification as Voronoi fill
+      plot_dataframe$group_fill # use same classification as Voronoi fill
     )
     subtitle_text <- sprintf(
       "Voronoi islands: %d (%.1f%%)",
@@ -440,14 +440,14 @@ create_tesselation_plots <- function(data,
     plt <- plt +
       ggplot2::theme_light() +
       ggplot2::labs(
-        title    = title,
-        subtitle = subtitle_text,   # NULL when show_island_count = FALSE
-        x        = coord_names[1],
-        y        = coord_names[2],
-        color    = "Class"
+        title = title,
+        subtitle = subtitle_text, # NULL when show_island_count = FALSE
+        x = coord_names[1],
+        y = coord_names[2],
+        color = "Class"
       ) +
       ggplot2::theme(
-        legend.position   = legend_position,
+        legend.position = legend_position,
         legend.background = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
       )
 
@@ -473,10 +473,10 @@ create_tesselation_plots <- function(data,
         ggrepel::geom_text_repel(
           data = plot_dataframe,
           ggplot2::aes(x = x, y = y, color = group_color, label = labels),
-          fontface     = label_fontface,
-          size         = label_size,
+          fontface = label_fontface,
+          size = label_size,
           max.overlaps = Inf,
-          show.legend  = FALSE
+          show.legend = FALSE
         )
     }
 
@@ -492,14 +492,14 @@ create_tesselation_plots <- function(data,
     ggplot2::stat_ellipse(
       data = plot_dataframe,
       ggplot2::aes(x = x, y = y, color = group_color, fill = group_primary),
-      geom        = "polygon",
-      alpha       = ellipse_alpha,
+      geom = "polygon",
+      alpha = ellipse_alpha,
       show.legend = FALSE
     )
 
   return(list(
-    ellipse_plot              = ellipse_plot,
-    voronoi_plot              = voronoi_plot,
+    ellipse_plot = ellipse_plot,
+    voronoi_plot = voronoi_plot,
     voronoi_plot_plus_ellipse = voronoi_plot_plus_ellipse
   ))
 }

@@ -199,7 +199,7 @@ create_voronoi_plot <- function(data,
   } else if (point_shape == "alternative") {
     plot_dataframe$group_alternative
   } else {
-    factor(rep(1, nrow(plot_dataframe)))  # All same shape when "none"
+    factor(rep(1, nrow(plot_dataframe))) # All same shape when "none"
   }
 
   # Handle case labels
@@ -288,8 +288,8 @@ create_voronoi_plot <- function(data,
     }
 
     list(
-      count   = sum(island_flags),
-      rate    = mean(island_flags),
+      count = sum(island_flags),
+      rate = mean(island_flags),
       indices = which(island_flags)
     )
   }
@@ -303,7 +303,7 @@ create_voronoi_plot <- function(data,
     plot_dataframe$y,
     plot_dataframe$group_fill
   )
-  voronoi_data        <- voronoi_result$polygon_data
+  voronoi_data <- voronoi_result$polygon_data
   voronoi_tessellation <- voronoi_result$tessellation
 
   # ---------------------------------------------------------------------------
@@ -313,7 +313,7 @@ create_voronoi_plot <- function(data,
   if (show_island_count) {
     islands <- compute_voronoi_islands(
       voronoi_tessellation,
-      plot_dataframe$group_fill   # use same classification as Voronoi fill
+      plot_dataframe$group_fill # use same classification as Voronoi fill
     )
     subtitle_text <- sprintf(
       "Voronoi islands: %d (%.1f%%)",
@@ -358,15 +358,15 @@ create_voronoi_plot <- function(data,
   voronoi_plot <- voronoi_plot +
     ggplot2::theme_light() +
     ggplot2::labs(
-      title    = title,
+      title = title,
       subtitle = subtitle_text,
-      x        = coord_names[1],
-      y        = coord_names[2],
-      color    = "Class"
+      x = coord_names[1],
+      y = coord_names[2],
+      color = "Class"
     ) +
     ggplot2::theme(
-      legend.position    = legend_position,
-      legend.background  = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
+      legend.position = legend_position,
+      legend.background = ggplot2::element_rect(fill = ggplot2::alpha("white", 0.2))
     )
 
   if (!is.null(color_palette)) {
@@ -392,9 +392,9 @@ create_voronoi_plot <- function(data,
         data = plot_dataframe,
         ggplot2::aes(x = x, y = y, color = group_color, label = labels),
         fontface = label_fontface,
-        size     = label_size,
+        size = label_size,
         max.overlaps = Inf,
-        show.legend  = FALSE
+        show.legend = FALSE
       )
   }
 
