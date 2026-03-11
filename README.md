@@ -88,8 +88,8 @@ A *Voronoi island* is a data point whose Voronoi cell is completely surrounded b
 - **`pain_data_example.R`**: Quantitative sensory testing pain data with multiple projection methods (PLS-DA, PCA, UMAP)
 - **`PsA_data_example.R`**: Psoriatic arthritis lipidomics data (PLS-DA projections)
 
-- **`Two_class_artifical_data_example.R`**: Artificial two-class data with controlled separation and scenarios with/without classification errors
-- **`Three_class_artifical_data_example.R`**: Artificial three-class data demonstrating multi-class visualizations
+- **`Two_class_artifical_data_example.R`**: Artificial two-class data with controlled separation and scenarios with/without classification errors (early standalone implementation, not yet using the final `create_tesselation_plots()` and `create_voronoi_plot()` functions).
+- **`Three_class_artifical_data_example.R`**: Artificial three-class data demonstrating multi-class visualizations (early standalone implementation, not yet using the final `create_tesselation_plots()` and `create_voronoi_plot()` functions)
 - **`Lsun_example.R`**: FCPS Lsun dataset illustrating Voronoi tessellation with multiple clustering algorithms (k-means and single linkage)
 
 ## Data

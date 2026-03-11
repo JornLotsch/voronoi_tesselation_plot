@@ -1,3 +1,7 @@
+# This code stems from the early stages of the project. 
+# It does not yet use the R library or the functions implemented later on. 
+# However, it does have the key function implemented as a standalone. 
+
 ############### Libraries ##############################
 library(mixOmics)
 library(ggplot2)
